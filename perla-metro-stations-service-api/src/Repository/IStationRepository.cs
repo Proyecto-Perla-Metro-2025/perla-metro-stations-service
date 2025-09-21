@@ -1,0 +1,17 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using perla_metro_stations_service_api.src.Models;
+
+namespace perla_metro_stations_service_api.src.Repository
+{
+    public interface IStationRepository
+    {
+        Task<IEnumerable<Station>> GetAllStations();
+        Task<Station?> GetStationById(Guid id);
+        Task<bool> AddStation(Station station);
+        Task<bool> UpdateStation(Guid id);
+        Task<bool> DeleteStation(Guid id);
+    }
+}
