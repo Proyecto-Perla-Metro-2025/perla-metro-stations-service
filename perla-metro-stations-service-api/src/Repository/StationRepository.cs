@@ -33,12 +33,14 @@ namespace perla_metro_stations_service_api.src.Repository
 
             station.IsActive = false;
             await _context.SaveChangesAsync();
-            return Station;
+            return station;
         }
 
         public async Task<IEnumerable<Station>> GetAllStations()
         {
-            return await _context.Stations.Where(s => s.IsActive).ToListAsync();
+            var stations = await _context.Stations.Where(s => s.IsActive).ToListAsync();
+            if (stations == null) throw new ArgumentException("No stations found");
+            return stations;
         }
 
         public Task<Station?> GetStationById(Guid id)
@@ -52,7 +54,8 @@ namespace perla_metro_stations_service_api.src.Repository
             if (existingStation == null) return null;
 
             existingStation.Name = station.Name;
-            existingStation.Line = station.Line;
+            existingStation.Location = station.Location;
+            existingStation.StopType = station.StopType;
             existingStation.IsActive = station.IsActive;
 
             await _context.SaveChangesAsync();

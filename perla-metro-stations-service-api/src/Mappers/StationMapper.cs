@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using perla_metro_stations_service_api.src.Dtos;
+using perla_metro_stations_service_api.src.Models;
 
 namespace perla_metro_stations_service_api.src.Mappers
 {
@@ -9,41 +11,46 @@ namespace perla_metro_stations_service_api.src.Mappers
     {
         public static StationDto ToDto(Station station)
         {
-            if (station == null) return null;
-
             return new StationDto
             {
                 Id = station.Id,
                 Name = station.Name,
                 Location = station.Location,
-                stopType = station.StopType,
-                isActive = station.IsActive,
+                StopType = station.StopType,
+                IsActive = station.IsActive,
             };
         }
         public static Station ToEntity(StationDto stationDto)
         {
-            if (stationDto == null) return null;
-
             return new Station
             {
                 Id = stationDto.Id,
                 Name = stationDto.Name,
                 Location = stationDto.Location,
-                StopType = stationDto.stopType,
-                IsActive = stationDto.isActive,
+                StopType = stationDto.StopType,
+                IsActive = stationDto.IsActive,
             };
         }
         public static Station editionToEntity(UpdateStationDto stationDto, Station existingStation)
         {
-            if (stationDto == null || existingStation == null) return null;
-
             return new Station
             {
                 Id = existingStation.Id,
                 Name = stationDto.Name ?? existingStation.Name,
                 Location = stationDto.Location ?? existingStation.Location,
-                StopType = stationDto.stopType ?? existingStation.StopType,
-                IsActive = stationDto.isActive ?? existingStation.IsActive,
+                StopType = stationDto.StopType ?? existingStation.StopType,
+                IsActive = stationDto.IsActive,
+            };
+        }
+        public static Station createToEntity (CreateStationDto stationDto)
+        {
+            return new Station
+            {
+                Id = Guid.NewGuid(),
+                Name = stationDto.Name,
+                Location = stationDto.Location,
+                StopType = stationDto.StopType,
+                IsActive = stationDto.IsActive,
             };
         }
     }
