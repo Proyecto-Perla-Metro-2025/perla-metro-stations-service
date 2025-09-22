@@ -38,14 +38,19 @@ namespace perla_metro_stations_service_api.src.Repository
 
         public async Task<IEnumerable<Station>> GetAllStations()
         {
-            var stations = await _context.Stations.Where(s => s.IsActive).ToListAsync();
+            var stations = await _context.Stations.ToListAsync();
             if (stations == null) throw new ArgumentException("No stations found");
             return stations;
         }
 
-        public Task<Station?> GetStationById(Guid id)
+        public async Task<Station?> GetStationById(Guid id)
         {
-            return _context.Stations.FindAsync(id).AsTask();
+            var station = await _context.Stations.FindAsync(id);
+            if (station != null && station.IsActive)
+            {
+                return station;
+            }
+            return null;
         }
 
         public async Task<Station?> UpdateStation(Station station, Guid id)

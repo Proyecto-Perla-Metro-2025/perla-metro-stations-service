@@ -19,13 +19,13 @@ namespace perla_metro_stations_service_api.src.Controllers
         {
             _stationService = stationService;
         }
-        [HttpGet]
+        [HttpGet("GetAllStations")]
         public async Task<IActionResult> GetAllStations()
         {
             var stations = await _stationService.GetAllStations();
             return Ok(stations);
         }
-        [HttpGet("{id}")]
+        [HttpGet("GetStationById/{id}")]
         public async Task<IActionResult> GetStationById(Guid id)
         {
             var station = await _stationService.GetStationById(id);
@@ -35,14 +35,14 @@ namespace perla_metro_stations_service_api.src.Controllers
                 return Ok();
             }
         }
-        [HttpPost]
+        [HttpPost("CreateStation")]
         public async Task<IActionResult> CreateStation([FromBody] CreateStationDto createStationDto)
         {
             if (createStationDto == null) return BadRequest();
             await _stationService.CreateStation(createStationDto);
             return Ok();
         }
-        [HttpPut("{id}")]
+        [HttpPut("UpdateStation/{id}")]
         public async Task<IActionResult> UpdateStation(Guid id, [FromBody] UpdateStationDto updateStationDto)
         {
             if (updateStationDto == null) return BadRequest();
@@ -50,7 +50,7 @@ namespace perla_metro_stations_service_api.src.Controllers
             if (updatedStation == null) return NotFound();
             return Ok(updatedStation);
         }
-        [HttpDelete("{id}")]
+        [HttpDelete("DeleteStation/{id}")]
         public async Task<IActionResult> DeleteStation(Guid id)
         {
             var deletedStation = await _stationService.DeleteStation(id);
