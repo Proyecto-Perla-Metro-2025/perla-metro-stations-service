@@ -14,6 +14,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(connectionString, new MySqlServerVersion(new Version(9, 4, 32))));
 
 var app = builder.Build();
+builder.services.AddScoped<ApplicationDbContext>();
+builder.services.AddScoped<IStationRepository, StationRepository>();
+
 app.MapGet("/", () => "Hello World!");
 
 app.Run();

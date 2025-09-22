@@ -10,8 +10,8 @@ namespace perla_metro_stations_service_api.src.Repository
     {
         Task<IEnumerable<Station>> GetAllStations();
         Task<Station?> GetStationById(Guid id);
-        Task<bool> AddStation(Station station);
-        Task<bool> UpdateStation(Guid id);
-        Task<bool> DeleteStation(Guid id);
+        Task<Station> AddStation(Station station);
+        Task<Station?> UpdateStation(Guid id);
+        Task<Station?> DeleteStation(Guid id);
     }
 }

@@ -15,21 +15,21 @@ namespace perla_metro_stations_service_api.src.Repository
         {
             _context = context;
         }
-        public async Task<bool> AddStation(Station station)
+        public async Task<Station> AddStation(Station station)
         {
             _context.Stations.Add(station);
             await _context.SaveChangesAsync();
-            return true;
+            return station;
         }
 
-        public async Task<bool> DeleteStation(Guid id)
+        public async Task<Station?> DeleteStation(Guid id)
         {
             var station = await _context.Stations.FindAsync(id);
-            if (station == null) return false;
+            if (station == null) return null;
 
             station.IsActive = false;
             await _context.SaveChangesAsync();
-            return true;
+            return Station;
         }
 
         public async Task<IEnumerable<Station>> GetAllStations()
@@ -42,14 +42,14 @@ namespace perla_metro_stations_service_api.src.Repository
             return _context.Stations.FindAsync(id).AsTask();
         }
 
-        public async Task<bool> UpdateStation(Guid id)
+        public async Task<Station?> UpdateStation(Guid id)
         {
             var station = await _context.Stations.FindAsync(id);
-            if (station == null) return false;
+            if (station == null) return null;
 
             _context.Entry(station).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-            return true;
+            return station;
         }
     }
 }
