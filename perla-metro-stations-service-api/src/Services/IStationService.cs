@@ -10,7 +10,7 @@ namespace perla_metro_stations_service_api.src.Services
         Task<IEnumerable<StationDto?>> GetAllStationsAsync();
         Task<StationDto?> GetStationByIdAsync(Guid id);
         Task<StationDto> CreateStationAsync(StationDto station);
-        Task UpdateStationAsync(StationDto station);
-        Task DeleteStationAsync(Guid id);
+        Task<StationDto?> UpdateStationAsync(UpdateStationDto station, Guid id);
+        Task<StationDto?> DeleteStationAsync(Guid id);
     }
 }

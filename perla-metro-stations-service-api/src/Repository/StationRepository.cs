@@ -17,6 +17,10 @@ namespace perla_metro_stations_service_api.src.Repository
         }
         public async Task<Station> AddStation(Station station)
         {
+            if (await GetStationById(station.Id) != null)
+            {
+                throw new ArgumentException("Ya existe una estación con el mismo ID");
+            }
             _context.Stations.Add(station);
             await _context.SaveChangesAsync();
             return station;
@@ -42,14 +46,17 @@ namespace perla_metro_stations_service_api.src.Repository
             return _context.Stations.FindAsync(id).AsTask();
         }
 
-        public async Task<Station?> UpdateStation(Guid id)
+        public async Task<Station?> UpdateStation(Station station, Guid id)
         {
-            var station = await _context.Stations.FindAsync(id);
-            if (station == null) return null;
+            var existingStation = await _context.Stations.FindAsync(id);
+            if (existingStation == null) return null;
 
-            _context.Entry(station).State = EntityState.Modified;
+            existingStation.Name = station.Name;
+            existingStation.Line = station.Line;
+            existingStation.IsActive = station.IsActive;
+
             await _context.SaveChangesAsync();
-            return station;
+            return existingStation;
         }
     }
 }
