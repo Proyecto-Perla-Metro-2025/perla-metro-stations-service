@@ -19,7 +19,7 @@ namespace perla_metro_stations_service_api.src.Repository
         {
             if (await GetStationById(station.Id) != null)
             {
-                throw new ArgumentException("Ya existe una estación con el mismo ID");
+                throw new ArgumentException("A station with the same ID already exists");
             }
             _context.Stations.Add(station);
             await _context.SaveChangesAsync();
