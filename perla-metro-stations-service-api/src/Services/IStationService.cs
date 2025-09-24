@@ -8,7 +8,7 @@ namespace perla_metro_stations_service_api.src.Services
 {
     public interface IStationService
     {
-        Task<IEnumerable<StationDto?>> GetAllStations();
+        Task<IEnumerable<StationDto?>> GetAllStations(string? name, string? type, string? status);
         Task<StationDto?> GetStationById(Guid id);
         Task<StationDto> CreateStation(CreateStationDto station);
         Task<StationDto?> UpdateStation(UpdateStationDto station, Guid id);

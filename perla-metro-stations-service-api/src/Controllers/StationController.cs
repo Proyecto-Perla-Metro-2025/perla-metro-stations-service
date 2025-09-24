@@ -21,11 +21,11 @@ namespace perla_metro_stations_service_api.src.Controllers
             _stationService = stationService;
         }
         [HttpGet("GetAllStations")]
-        public async Task<IActionResult> GetAllStations()
+        public async Task<IActionResult> GetAllStations([FromQuery] string? name, [FromQuery] string? stopType, [FromQuery] string? status)
         {
             try
             {
-                var stations = await _stationService.GetAllStations();
+                var stations = await _stationService.GetAllStations(name, stopType, status);
                 var response = new ApiResponse<object>(
                     stations,
                     "Stations retrieved successfully",

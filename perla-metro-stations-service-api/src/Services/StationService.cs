@@ -18,9 +18,28 @@ namespace perla_metro_stations_service_api.src.Services
             _stationRepository = stationRepository;
         }
         
-        public async Task<IEnumerable<StationDto?>> GetAllStations()
+        public async Task<IEnumerable<StationDto?>> GetAllStations(string? name, string? type, string? status)
         {
             var stations = await _stationRepository.GetAllStations();
+            if (!string.IsNullOrEmpty(name))
+            {
+                stations = stations.Where(s => s.Name.Contains(name, StringComparison.OrdinalIgnoreCase));
+            }
+            if (!string.IsNullOrEmpty(type))
+            {
+                stations = stations.Where(s => s.StopType.Equals(type, StringComparison.OrdinalIgnoreCase));
+            }
+            if (!string.IsNullOrEmpty(status))
+            {
+                if (status.Equals("true", StringComparison.OrdinalIgnoreCase))
+                {
+                    stations = stations.Where(s => s.IsActive);
+                }
+                else if (status.Equals("false", StringComparison.OrdinalIgnoreCase))
+                {
+                    stations = stations.Where(s => !s.IsActive);
+                }
+            }
             var stationDtos = stations.Select(station => StationMapper.ToDto(station));
             return stationDtos;
         }
