@@ -39,7 +39,6 @@ namespace perla_metro_stations_service_api.src.Mappers
                 Name = stationDto.Name ?? existingStation.Name,
                 Location = stationDto.Location ?? existingStation.Location,
                 StopType = stationDto.StopType ?? existingStation.StopType,
-                IsActive = stationDto.IsActive,
             };
         }
         public static Station createToEntity (CreateStationDto stationDto)
