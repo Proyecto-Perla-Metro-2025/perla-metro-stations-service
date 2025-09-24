@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using perla_metro_stations_service_api.src.Data;
 using perla_metro_stations_service_api.src.Models;
-
+using perla_metro_stations_service_api.src.Exceptions;
 namespace perla_metro_stations_service_api.src.Repository
 {
     public class StationRepository : IStationRepository
@@ -17,10 +17,6 @@ namespace perla_metro_stations_service_api.src.Repository
         }
         public async Task<Station> AddStation(Station station)
         {
-            if (await GetStationById(station.Id) != null)
-            {
-                throw new ArgumentException("A station with the same ID already exists");
-            }
             _context.Stations.Add(station);
             await _context.SaveChangesAsync();
             return station;
@@ -29,7 +25,7 @@ namespace perla_metro_stations_service_api.src.Repository
         public async Task<Station?> DeleteStation(Guid id)
         {
             var station = await _context.Stations.FindAsync(id);
-            if (station == null) return null;
+            if (station == null) throw new StationNotFoundException("Station not found");
 
             station.IsActive = false;
             await _context.SaveChangesAsync();
@@ -39,24 +35,25 @@ namespace perla_metro_stations_service_api.src.Repository
         public async Task<IEnumerable<Station>> GetAllStations()
         {
             var stations = await _context.Stations.ToListAsync();
-            if (stations == null) throw new ArgumentException("No stations found");
+            if (stations.Count == 0) throw new StationNotFoundException("No stations found");
             return stations;
         }
 
         public async Task<Station?> GetStationById(Guid id)
         {
             var station = await _context.Stations.FindAsync(id);
-            if (station != null && station.IsActive)
-            {
-                return station;
-            }
-            return null;
+            if (station == null) throw new StationNotFoundException("Station not found");
+            if (!station.IsActive) throw new ArgumentException("Station is inactive");
+            return station;
         }
 
         public async Task<Station?> UpdateStation(Station station, Guid id)
         {
             var existingStation = await _context.Stations.FindAsync(id);
-            if (existingStation == null) return null;
+            if (existingStation == null) throw new StationNotFoundException("Station not found");
+
+            bool duplicated = await _context.Stations.AnyAsync(s => s.Id != id && s.Name == station.Name && s.Location == station.Location);
+            if (duplicated) throw new DuplicateStationException("A station with the same name and location already exists");
 
             existingStation.Name = station.Name;
             existingStation.Location = station.Location;
@@ -65,6 +62,10 @@ namespace perla_metro_stations_service_api.src.Repository
 
             await _context.SaveChangesAsync();
             return existingStation;
+        }
+        public async Task<bool> StationExists(string name, string location)
+        {
+            return await _context.Stations.AnyAsync(s => s.Name == name && s.Location == location);
         }
     }
 }

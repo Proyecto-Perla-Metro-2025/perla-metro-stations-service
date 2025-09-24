@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using perla_metro_stations_service_api.src.Dtos;
+using perla_metro_stations_service_api.src.Exceptions;
 using perla_metro_stations_service_api.src.Mappers;
 using perla_metro_stations_service_api.src.Response;
 using perla_metro_stations_service_api.src.Services;
@@ -33,9 +34,16 @@ namespace perla_metro_stations_service_api.src.Controllers
                 );
                 return Ok(response);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(500, new { Message = "An error occurred while retrieving all stations." });
+                if (ex is StationNotFoundException)
+                {
+                    return StatusCode(404, new { Message = ex.Message });
+                }
+                else
+                {
+                    return StatusCode(500, new { Message = "An error occurred while retrieving all stations." });
+                }
             }
         }
         [HttpGet("GetStationById/{id}")]
@@ -52,9 +60,16 @@ namespace perla_metro_stations_service_api.src.Controllers
                 );
                 return Ok(response);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(500, new { Message = "An error occurred while retrieving the station by ID." });
+                if (ex is StationNotFoundException)
+                {
+                    return StatusCode(404, new { Message = ex.Message });
+                }
+                else
+                {
+                    return StatusCode(500, new { Message = "An error occurred while retrieving the station by ID." });
+                }
             }
         }
         [HttpPost("CreateStation")]
@@ -62,7 +77,7 @@ namespace perla_metro_stations_service_api.src.Controllers
         {
             try
             {
-                if (createStationDto == null) return StatusCode(400, new { Message = "Invalid station data" });
+                if (createStationDto.Name == "" || createStationDto.Location == "" || createStationDto.StopType == "") return StatusCode(400, new { Message = "Invalid station data, all fields are required." });
                 await _stationService.CreateStation(createStationDto);
                 var response = new ApiResponse<object>(
                     createStationDto,
@@ -71,9 +86,16 @@ namespace perla_metro_stations_service_api.src.Controllers
                 );
                 return Ok(response);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(500, new { Message = "An error occurred while creating the station." });
+                if (ex is DuplicateStationException)
+                {
+                    return StatusCode(409, new { Message = ex.Message });
+                }
+                else
+                {
+                    return StatusCode(500, new { Message = "An error occurred while creating the station." });
+                }
             }
         }
         [HttpPut("UpdateStation/{id}")]
@@ -91,9 +113,20 @@ namespace perla_metro_stations_service_api.src.Controllers
                 );
                 return Ok(response);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(500, new { Message = "An error occurred while updating the station." });
+                if (ex is StationNotFoundException)
+                {
+                    return StatusCode(404, new { Message = ex.Message });
+                }
+                else if (ex is DuplicateStationException)
+                {
+                    return StatusCode(409, new { Message = ex.Message });
+                }
+                else
+                {
+                    return StatusCode(500, new { Message = "An error occurred while updating the station." });
+                }
             }
         }
         [HttpDelete("DeleteStation/{id}")]
@@ -110,9 +143,16 @@ namespace perla_metro_stations_service_api.src.Controllers
                 );
                 return Ok(response);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(500, new { Message = "An error occurred while deleting the station." });
+                if (ex is StationNotFoundException)
+                {
+                    return StatusCode(404, new { Message = ex.Message });
+                }
+                else
+                {
+                    return StatusCode(500, new { Message = "An error occurred while deleting the station." });
+                }
             }
         }
     }

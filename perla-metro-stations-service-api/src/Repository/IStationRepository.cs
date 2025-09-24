@@ -13,5 +13,6 @@ namespace perla_metro_stations_service_api.src.Repository
         Task<Station> AddStation(Station station);
         Task<Station?> UpdateStation(Station station, Guid id);
         Task<Station?> DeleteStation(Guid id);
+        Task<bool> StationExists(string name, string location);
     }
 }

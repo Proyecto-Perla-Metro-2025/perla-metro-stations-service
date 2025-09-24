@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using perla_metro_stations_service_api.src.Dtos;
+using perla_metro_stations_service_api.src.Exceptions;
 using perla_metro_stations_service_api.src.Mappers;
 using perla_metro_stations_service_api.src.Models;
 using perla_metro_stations_service_api.src.Repository;
@@ -53,6 +54,10 @@ namespace perla_metro_stations_service_api.src.Services
         public async Task<StationDto> CreateStation(CreateStationDto station)
         {
             var stationEntity = StationMapper.createToEntity(station);
+            if (await _stationRepository.StationExists(stationEntity.Name, stationEntity.Location))
+            {
+                throw new DuplicateStationException("A station with the same name and location already exists");
+            }
             var createdStation = await _stationRepository.AddStation(stationEntity);
             return StationMapper.ToDto(createdStation);
         }
