@@ -8,9 +8,19 @@ using perla_metro_stations_service_api.src.Models;
 using perla_metro_stations_service_api.src.Exceptions;
 namespace perla_metro_stations_service_api.src.Repository
 {
+    /// <summary>
+    /// Implementación de la interfaz IStationRepository para el patrón Repository de estaciones.
+    /// </summary>
     public class StationRepository : IStationRepository
     {
+        /// <summary>
+        /// Contexto de la base de datos.
+        /// </summary>
         private readonly ApplicationDbContext _context;
+        /// <summary>
+        /// Constructor de la clase StationRepository.
+        /// </summary>
+        /// <param name="context"></param>
         public StationRepository(ApplicationDbContext context)
         {
             _context = context;

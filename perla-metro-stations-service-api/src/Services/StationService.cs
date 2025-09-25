@@ -10,15 +10,25 @@ using perla_metro_stations_service_api.src.Repository;
 
 namespace perla_metro_stations_service_api.src.Services
 {
+    /// <summary>
+    /// Implementación del servicio de estaciones.
+    /// </summary>
     public class StationService : IStationService
     {
+        /// <summary>
+        /// Repository de las estaciones.
+        /// </summary>
         private readonly IStationRepository _stationRepository;
-        
+
+        /// <summary>
+        /// Constructor de la clase StationService.
+        /// </summary>
+        /// <param name="stationRepository">Repository de las estaciones.</param>
         public StationService(IStationRepository stationRepository)
         {
             _stationRepository = stationRepository;
         }
-        
+
         public async Task<IEnumerable<StationDto?>> GetAllStations(string? name, string? type, string? status)
         {
             var stations = await _stationRepository.GetAllStations();
@@ -50,7 +60,7 @@ namespace perla_metro_stations_service_api.src.Services
             var station = await _stationRepository.GetStationById(id);
             return StationMapper.ToDto(station);
         }
-        
+
         public async Task<StationDto> CreateStation(CreateStationDto station)
         {
             var stationEntity = StationMapper.createToEntity(station);

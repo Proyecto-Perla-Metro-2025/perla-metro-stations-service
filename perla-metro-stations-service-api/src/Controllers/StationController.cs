@@ -5,22 +5,38 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using perla_metro_stations_service_api.src.Dtos;
 using perla_metro_stations_service_api.src.Exceptions;
-using perla_metro_stations_service_api.src.Mappers;
 using perla_metro_stations_service_api.src.Response;
 using perla_metro_stations_service_api.src.Services;
 
 namespace perla_metro_stations_service_api.src.Controllers
 {
+    /// <summary>
+    /// Controlador encargado de la gestión de las estaciones.
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class StationController : ControllerBase
     {
+        /// <summary>
+        /// Servicio de la estación.
+        /// </summary>
         private readonly IStationService _stationService;
 
+        /// <summary>
+        /// Constructor de la clase controlador de estaciones.
+        /// </summary>
+        /// <param name="stationService">Servicio de la estación.</param>
         public StationController(IStationService stationService)
         {
             _stationService = stationService;
         }
+        /// <summary>
+        /// Metodo para obtener todas las estaciones.
+        /// </summary>
+        /// <param name="name">Parametro de filtro por nombre.</param>
+        /// <param name="stopType">Parametro de filtro por tipo de parada.</param>
+        /// <param name="status">Parametro de filtro por estado (Activo o inactivo).</param>
+        /// <returns>Retorna todas las estaciones encontradas, se aplica filtro si corresponde.</returns>
         [HttpGet("GetAllStations")]
         public async Task<IActionResult> GetAllStations([FromQuery] string? name, [FromQuery] string? stopType, [FromQuery] string? status)
         {
@@ -46,6 +62,11 @@ namespace perla_metro_stations_service_api.src.Controllers
                 }
             }
         }
+        /// <summary>
+        /// Metodo para obtener una estación dado una ID.
+        /// </summary>
+        /// <param name="id">Id a buscar (Formato UUID4).</param>
+        /// <returns>Retorna la estación encontrada o un mensaje de error en caso de no encontrarla.</returns> 
         [HttpGet("GetStationById/{id}")]
         public async Task<IActionResult> GetStationById(Guid id)
         {
@@ -72,6 +93,11 @@ namespace perla_metro_stations_service_api.src.Controllers
                 }
             }
         }
+        /// <summary>
+        /// Metodo para crear una estación.
+        /// </summary>
+        /// <param name="createStationDto">Formulario de creación de estación, solicita nombre, ubicación y tipo de parada.</param>
+        /// <returns>Retorna la estación creada y un mensaje de exito, mensaje de error en caso contrario.</returns>
         [HttpPost("CreateStation")]
         public async Task<IActionResult> CreateStation([FromBody] CreateStationDto createStationDto)
         {
@@ -102,6 +128,12 @@ namespace perla_metro_stations_service_api.src.Controllers
                 }
             }
         }
+        /// <summary>
+        /// Metodo para actualizar una estación.
+        /// </summary>
+        /// <param name="id">Id de la estación a actualizar (Formato UUID4).</param>
+        /// <param name="updateStationDto">Formulario de actualización de estación, solicita nombre, ubicación y tipo de parada.</param>
+        /// <returns>Retorna la estación actualizada y un mensaje de éxito, mensaje de error en caso contrario.</returns>
         [HttpPut("UpdateStation/{id}")]
         public async Task<IActionResult> UpdateStation(Guid id, [FromBody] UpdateStationDto updateStationDto)
         {
@@ -139,6 +171,11 @@ namespace perla_metro_stations_service_api.src.Controllers
                 }
             }
         }
+        /// <summary>
+        /// Metodo para eliminar una estación.
+        /// </summary>
+        /// <param name="id">Id de la estación a eliminar (Formato UUID4).</param>
+        /// <returns>Retorna la estación eliminada y un mensaje de éxito, mensaje de error en caso contrario.</returns>
         [HttpDelete("DeleteStation/{id}")]
         public async Task<IActionResult> DeleteStation(Guid id)
         {
