@@ -37,7 +37,7 @@ namespace perla_metro_stations_service_api.src.Controllers
         /// <param name="stopType">Parametro de filtro por tipo de parada.</param>
         /// <param name="status">Parametro de filtro por estado (Activo o inactivo).</param>
         /// <returns>Retorna todas las estaciones encontradas, se aplica filtro si corresponde.</returns>
-        [HttpGet("GetAllStations")]
+        [HttpGet]
         public async Task<IActionResult> GetAllStations([FromQuery] string? name, [FromQuery] string? stopType, [FromQuery] string? status)
         {
             try
@@ -67,7 +67,7 @@ namespace perla_metro_stations_service_api.src.Controllers
         /// </summary>
         /// <param name="id">Id a buscar (Formato UUID4).</param>
         /// <returns>Retorna la estación encontrada o un mensaje de error en caso de no encontrarla.</returns> 
-        [HttpGet("GetStationById/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetStationById(Guid id)
         {
             try
@@ -98,7 +98,7 @@ namespace perla_metro_stations_service_api.src.Controllers
         /// </summary>
         /// <param name="createStationDto">Formulario de creación de estación, solicita nombre, ubicación y tipo de parada.</param>
         /// <returns>Retorna la estación creada y un mensaje de exito, mensaje de error en caso contrario.</returns>
-        [HttpPost("CreateStation")]
+        [HttpPost]
         public async Task<IActionResult> CreateStation([FromBody] CreateStationDto createStationDto)
         {
             try
@@ -134,7 +134,7 @@ namespace perla_metro_stations_service_api.src.Controllers
         /// <param name="id">Id de la estación a actualizar (Formato UUID4).</param>
         /// <param name="updateStationDto">Formulario de actualización de estación, solicita nombre, ubicación y tipo de parada.</param>
         /// <returns>Retorna la estación actualizada y un mensaje de éxito, mensaje de error en caso contrario.</returns>
-        [HttpPut("UpdateStation/{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateStation(Guid id, [FromBody] UpdateStationDto updateStationDto)
         {
             try
@@ -176,7 +176,7 @@ namespace perla_metro_stations_service_api.src.Controllers
         /// </summary>
         /// <param name="id">Id de la estación a eliminar (Formato UUID4).</param>
         /// <returns>Retorna la estación eliminada y un mensaje de éxito, mensaje de error en caso contrario.</returns>
-        [HttpDelete("DeleteStation/{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStation(Guid id)
         {
             try
