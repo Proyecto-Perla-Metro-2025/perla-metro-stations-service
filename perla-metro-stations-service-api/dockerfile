@@ -3,8 +3,8 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
 # Copiar csproj y restaurar dependencias
-COPY perla_metro_stations_service_api.csproj ./
-RUN dotnet restore perla_metro_stations_service_api.csproj
+COPY perla-metro-stations-service-api.csproj ./
+RUN dotnet restore perla-metro-stations-service-api.csproj
 
 # Copiar todo el código y compilar
 COPY . .
@@ -21,4 +21,4 @@ COPY --from=build /app/publish .
 ENV ASPNETCORE_URLS=http://+:$PORT
 EXPOSE 8080
 
-ENTRYPOINT ["dotnet", "perla_metro_stations_service_api.dll"]
+ENTRYPOINT ["dotnet", "perla-metro-stations-service-api.dll"]
