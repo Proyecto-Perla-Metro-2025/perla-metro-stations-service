@@ -80,12 +80,12 @@ Base de datos]
     ```
     **Nota importante:** Considera la URL publica de MySQL ofrecida por railway, donde los valores se ven tal que: ***mysql://USER:PASSWORD@HOST:PORT/DATABASE***
 
-3. **Instalar Dependencias**
+4. **Instalar Dependencias**
     ```bash
     dotnet restore
     ```
 
-4. **Ejecutar el Proyecto**
+5. **Ejecutar el Proyecto**
     ```bash
     dotnet run
     ```
@@ -229,3 +229,7 @@ Response (200 OK):
 }
 ```
 ### Ignacio Carvajal, 21.411.819-K
+### Observaciones / Consideraciones
+
+- Se considera que las estaciones solo pueden ser de tipo origen, destino o intermedia de forma unica y exclusiva.
+- La base de datos desplegada en Railway puede estar en modo *Serverless*, lo que significa que, en caso de bajo tráfico, puede apagarse automáticamente y se encenderá al recibir la primera solicitud. Por lo tanto, se solicita reintentar las solicitudes iniciales.
