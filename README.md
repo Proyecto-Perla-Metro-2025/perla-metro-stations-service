@@ -55,7 +55,7 @@ Base de datos]
 
 | Método | Endpoint | Descripción | Parámetros|
 |--------|----------|-------------|-----------|
-| `GET` | `/api/Station` | Listar todas las estaciones | - |
+| `GET` | `/api/Station` | Listar todas las estaciones | `Query: name (string, opcional), stopType (string, opcional), status (string: true/false, opcional)` |
 | `POST` | `/api/Station` | Crear nueva estación | `Body: Name: string, Location: string, StopType: string`|
 | `GET` | `/api/Station/{id}` | Obtener estación por ID | `id: string (UUIDv4)` |
 | `PUT` | `/api/Station/{id}` | Actualizar estación | `id: string(UUIDv4)`, `Body: Name: string, Location: string, StopType: string` |
@@ -105,7 +105,7 @@ Base de datos]
 ### 3. Endpoints disponibles en producción
 | Método | Endpoint | Descripción | Parámetros|
 |--------|----------|-------------|-----------|
-| `GET` | `/api/Station` | Listar todas las estaciones | - |
+| `GET` | `/api/Station` | Listar todas las estaciones | `Query: name (string, opcional), stopType (string, opcional), status (string: true/false, opcional)`|
 | `POST` | `/api/Station` | Crear nueva estación | `Body: Name: string, Location: string, StopType: string`|
 | `GET` | `/api/Station/{id}` | Obtener estación por ID | `id: string (UUIDv4)` |
 | `PUT` | `/api/Station/{id}` | Actualizar estación | `id: string(UUIDv4)`, `Body: Name: string, Location: string, StopType: string` |
@@ -136,6 +136,25 @@ Response (200 OK):
 **2. GET /api/Station:**
 ```
 URL: https://nombre-repositorio.onrender.com/api/Station
+Response (200 OK):
+{
+    "data": [
+        {
+            "id": "2fb729b3-5af3-4fa6-b2ec-a2173f9adb30",
+            "name": "Estación La Torre",
+            "location": "Calle La Torre, Antofagasta",
+            "stopType": "Origen",
+            "status": "Active",
+            "isActive": true
+        }
+    ],
+    "message": "Stations retrieved successfully",
+    "success": true
+}
+```
+**2.1. GET /api/Station?name=La%20Torre:**
+```
+URL: https://nombre-repositorio.onrender.com/api/Station?name=La%20Torre
 Response (200 OK):
 {
     "data": [
