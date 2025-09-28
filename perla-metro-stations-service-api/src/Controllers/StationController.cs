@@ -139,13 +139,14 @@ namespace perla_metro_stations_service_api.src.Controllers
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(updateStationDto.Name) || string.IsNullOrWhiteSpace(updateStationDto.Location) || string.IsNullOrWhiteSpace(updateStationDto.StopType))
-                    return StatusCode(400, new { Message = "Name, Location, and StopType are required fields." });
-                var stopType = updateStationDto.StopType?.ToLower();
-                if (stopType != "origen" && stopType != "intermedia" && stopType != "destino")
-                    return StatusCode(400, new { Message = "Invalid StopType, must be either 'Origen', 'Intermedia', or 'Destino'." });
-                    
-                updateStationDto.StopType = char.ToUpper(updateStationDto.StopType[0]) + updateStationDto.StopType.Substring(1).ToLower();
+                if (!string.IsNullOrEmpty(updateStationDto.StopType))
+                {
+                    var stopType = updateStationDto.StopType?.ToLower();
+                    if (stopType != "origen" && stopType != "intermedia" && stopType != "destino")
+                        return StatusCode(400, new { Message = "Invalid StopType, must be either 'Origen', 'Intermedia', or 'Destino'." });
+
+                    updateStationDto.StopType = char.ToUpper(updateStationDto.StopType[0]) + updateStationDto.StopType.Substring(1).ToLower();
+                }
                 var updatedStation = await _stationService.UpdateStation(updateStationDto, id);
                 if (updatedStation == null) return StatusCode(404, new { Message = "Station not found" });
                 var response = new ApiResponse<object>(

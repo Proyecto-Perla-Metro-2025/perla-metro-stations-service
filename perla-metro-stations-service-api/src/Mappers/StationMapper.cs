@@ -55,9 +55,9 @@ namespace perla_metro_stations_service_api.src.Mappers
             return new Station
             {
                 Id = existingStation.Id,
-                Name = stationDto.Name ?? existingStation.Name,
-                Location = stationDto.Location ?? existingStation.Location,
-                StopType = stationDto.StopType ?? existingStation.StopType,
+                Name = !string.IsNullOrEmpty(stationDto.Name) ? stationDto.Name : existingStation.Name,
+                Location = !string.IsNullOrEmpty(stationDto.Location) ? stationDto.Location : existingStation.Location,
+                StopType = !string.IsNullOrEmpty(stationDto.StopType) ? stationDto.StopType : existingStation.StopType,
             };
         }
         /// <summary>

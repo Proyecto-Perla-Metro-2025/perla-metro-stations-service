@@ -35,8 +35,7 @@ namespace perla_metro_stations_service_api.src.Repository
         public async Task<Station?> DeleteStation(Guid id)
         {
             var station = await _context.Stations.FindAsync(id);
-            if (station == null) throw new StationNotFoundException("Station not found");
-
+            if (station == null) return null;
             station.IsActive = false;
             await _context.SaveChangesAsync();
             return station;
@@ -45,36 +44,30 @@ namespace perla_metro_stations_service_api.src.Repository
         public async Task<IEnumerable<Station>> GetAllStations()
         {
             var stations = await _context.Stations.ToListAsync();
-            if (stations.Count == 0) throw new StationNotFoundException("No stations found");
             return stations;
         }
 
         public async Task<Station?> GetStationById(Guid id)
         {
             var station = await _context.Stations.FindAsync(id);
-            if (station == null) throw new StationNotFoundException("Station not found");
+            if (station == null) return null;
             return station;
         }
 
-        public async Task<Station?> UpdateStation(Station station, Guid id)
+        public async Task<Station?> UpdateStation(Station station)
         {
-            var existingStation = await _context.Stations.FindAsync(id);
-            if (existingStation == null) throw new StationNotFoundException("Station not found");
-
-            bool duplicated = await _context.Stations.AnyAsync(s => s.Id != id && s.Name == station.Name && s.Location == station.Location);
-            if (duplicated) throw new DuplicateStationException("A station with the same name and location already exists");
-
+            var existingStation = await _context.Stations.FindAsync(station.Id);
+            if (existingStation == null) return null;
             existingStation.Name = station.Name;
             existingStation.Location = station.Location;
             existingStation.StopType = station.StopType;
             existingStation.IsActive = station.IsActive;
-
             await _context.SaveChangesAsync();
             return existingStation;
         }
-        public async Task<bool> StationExists(string name, string location)
+        public async Task<bool> StationExists(string name, Guid? id = null)
         {
-            return await _context.Stations.AnyAsync(s => s.Name == name && s.Location == location);
+            return await _context.Stations.AnyAsync(s => s.Name == name && (!id.HasValue || s.Id != id.Value));
         }
     }
 }

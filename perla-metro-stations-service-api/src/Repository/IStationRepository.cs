@@ -32,9 +32,8 @@ namespace perla_metro_stations_service_api.src.Repository
         /// Método para actualizar una estación existente.
         /// </summary>
         /// <param name="station">Datos a actualizar.</param>
-        /// <param name="id">ID de la estación a actualizar (UUID4).</param>
         /// <returns>Retorna la estación actualizada, error en caso de no encontrarla.</returns>
-        Task<Station?> UpdateStation(Station station, Guid id);
+        Task<Station?> UpdateStation(Station station);
         /// <summary>
         /// Método para eliminar una estación por su ID.
         /// </summary>
@@ -42,11 +41,11 @@ namespace perla_metro_stations_service_api.src.Repository
         /// <returns>Retorna la estación eliminada, error en caso de no encontrarla.</returns>
         Task<Station?> DeleteStation(Guid id);
         /// <summary>
-        /// Método para verificar si una estación existe por su nombre y ubicación.
+        /// Método para verificar si una estación existe por su nombre.
         /// </summary>
         /// <param name="name">Nombre de la estación.</param>
-        /// <param name="location">Ubicación de la estación.</param>
+        /// <param name="id">ID de la estación (opcional).</param>
         /// <returns>Retorna true si la estación existe, false en caso contrario.</returns>
-        Task<bool> StationExists(string name, string location);
+        Task<bool> StationExists(string name, Guid? id = null);  
     }
 }
