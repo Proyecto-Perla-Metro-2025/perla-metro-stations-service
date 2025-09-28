@@ -73,7 +73,7 @@ Base de datos]
 
     cd <Directorio donde fue clonado>
     ```
-2. **Configurar Varibles de Entorno**
+2. **Configurar Varibles de Entorno (.env)**
    ```env
    ///Recuerda eliminar comillas ("")
    DB_CONNECTION=Server="Tu Host";Port="Tu puerto";Database="Tu nombre de base de datos";User="Tu usuario";Password="Tu contraseña";
