@@ -76,6 +76,17 @@ namespace perla_metro_stations_service_api.src.Mappers
                 IsActive = stationDto.IsActive,
             };
         }
+        public static StationDtoSearchID ToDtoSearchID(Station station)
+        {
+            return new StationDtoSearchID
+            {
+                Id = station.Id,
+                Name = station.Name,
+                Location = station.Location,
+                StopType = station.StopType,
+                Status = station.IsActive ? "Active" : null,
+                IsActive = station.IsActive,
+            };
+        }
     }
-
 }

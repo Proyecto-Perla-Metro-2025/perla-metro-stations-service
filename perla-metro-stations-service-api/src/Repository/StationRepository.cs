@@ -53,7 +53,6 @@ namespace perla_metro_stations_service_api.src.Repository
         {
             var station = await _context.Stations.FindAsync(id);
             if (station == null) throw new StationNotFoundException("Station not found");
-            if (!station.IsActive) throw new ArgumentException("Station is inactive");
             return station;
         }
 

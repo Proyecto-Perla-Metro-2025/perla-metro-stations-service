@@ -24,7 +24,7 @@ namespace perla_metro_stations_service_api.src.Services
         /// </summary>
         /// <param name="id">ID de la estación (UUID4).</param>
         /// <returns>Retorna la estación correspondiente al ID, mensaje de error si no existe.</returns>
-        Task<StationDto?> GetStationById(Guid id);
+        Task<StationDtoSearchID?> GetStationById(Guid id);
         /// <summary>
         /// Crea una nueva estación.
         /// </summary>

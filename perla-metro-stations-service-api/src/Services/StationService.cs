@@ -55,10 +55,10 @@ namespace perla_metro_stations_service_api.src.Services
             return stationDtos;
         }
 
-        public async Task<StationDto?> GetStationById(Guid id)
+        public async Task<StationDtoSearchID?> GetStationById(Guid id)
         {
             var station = await _stationRepository.GetStationById(id);
-            return StationMapper.ToDto(station);
+            return StationMapper.ToDtoSearchID(station);
         }
 
         public async Task<StationDto> CreateStation(CreateStationDto station)
