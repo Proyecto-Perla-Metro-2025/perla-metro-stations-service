@@ -113,6 +113,8 @@ Base de datos]
 
 ### Ejemplos de uso (Postman):
 
+**Asumiendo que su URL es la obtenida en producción "https://nombre-repositorio.onrender.com". En caso de estar ejecutándose localmente, su URL debería verse similar a: "http://localhost:8080".**
+
 **1. POST:**
 ```
 URL: https://nombre-repositorio.onrender.com/api/Station
